@@ -1,0 +1,31 @@
+GET http://localhost:5000/Users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjM4LCJ1c2VybmFtZSI6InNheWFuZyIsIm5hbWEiOiJzYXlhbmciLCJlbWFpbCI6InNheWFuZ0BnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJub190ZWxlcG9uIjo4OTUxOTExMzQ0NCwiaWF0IjoxNzA0NjE3MTQ1LCJleHAiOjE3MDQ2MTcxNjB9.KWAgImZkICqDT4-CewHjZiTYTCDSIQvSLYEqcL2qxII
+
+###
+POST http://localhost:5000/Users
+Content-Type: application/json
+
+{
+    "nama": "sayang",
+    "username": "sayang",
+    "password": "sayang",
+    "confPassword": "sayang",
+    "role": "admin",
+    "email": "sayang@gmail.com",
+    "no_telepon": 89519113444
+}
+
+###
+POST http://localhost:5000/Login
+Content-Type: application/json
+
+{
+    "username": "sayang",
+    "password": "sayang"
+}
+
+###
+GET http://localhost:5000/token
+
+###
+DELETE  http://localhost:5000/Logout
