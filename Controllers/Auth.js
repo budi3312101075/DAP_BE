@@ -7,7 +7,7 @@ export const getUsers = async (req, res) => {
     const query = await db.execute(`SELECT * FROM users`);
     const users = query[0]; // Mendapatkan data hasil query dari index 0 pada array
 
-    return res.json(users);
+    return res.status(200).json({ success: true, data: users });
   } catch (error) {
     console.error("Terjadi kesalahan:", error);
     return res.status(500).json({ msg: "Terjadi kesalahan pada server" });
@@ -95,34 +95,21 @@ export const Login = async (req, res) => {
     const email = user[0].email;
     const role = user[0].role;
     const no_telepon = user[0].no_telepon;
-    const accessToken = jwt.sign(
-      { userId, username: loggedInUsername, nama, email, role, no_telepon },
-      process.env.ACCESS_TOKEN_SECRET,
-      {
-        expiresIn: "15s",
-      }
-    );
-    const refreshToken = jwt.sign(
-      { userId, nama, email },
-      process.env.REFRESH_TOKEN_SECRET,
-      {
-        expiresIn: "1d",
-      }
-    );
 
-    // Perbaikan pada bagian ini, menggunakan await untuk menunggu eksekusi query selesai
-    await db.execute(`UPDATE Users SET refreshToken = ? WHERE id = ?`, [
-      refreshToken,
-      userId,
-    ]);
-
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000,
-      // secure: true
+    let body = { loggedInUsername, nama, role, no_telepon };
+    const token = jwt.sign({ token: userId }, process.env.ACCESS_TOKEN_SECRET, {
+      expiresIn: "1d",
     });
 
-    return res.json({ accessToken });
+    const options = {
+      httpOnly: false,
+      maxAge: 3600000 * 1 * 24,
+    };
+
+    return res
+      .status(200)
+      .cookie("token", token, options)
+      .json({ success: true, data: body });
   } catch (error) {
     console.error("Terjadi kesalahan:", error);
     return res.status(500).json({ msg: "Terjadi kesalahan pada server" });
@@ -130,26 +117,25 @@ export const Login = async (req, res) => {
 };
 
 export const Logout = async (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
-  if (!refreshToken) return res.sendStatus(204);
-
   try {
-    const [user] = await db.execute(
-      `SELECT id FROM users WHERE refreshToken = ?`,
-      [refreshToken]
-    );
-
-    if (!user || !user.length) return res.sendStatus(204);
-
-    const userId = user[0].id;
-    await db.execute(`UPDATE Users SET refreshToken = null WHERE id = ?`, [
-      userId,
-    ]);
-
-    res.clearCookie("refreshToken");
-    return res.sendStatus(200);
+    res
+      .status(200)
+      .clearCookie("token")
+      .json({ success: true, msg: "Logout Berhasil!" });
   } catch (error) {
-    console.error("Terjadi kesalahan:", error);
     return res.status(500).json({ msg: "Terjadi kesalahan pada server" });
+  }
+};
+
+export const getMe = async (req, res) => {
+  // return res.status(500).json({ success: false, msg:  req.user.token });
+  try {
+    const getMe = await db.execute(`SELECT * FROM users WHERE id = ?`, [
+      // req.user.token,
+      req.user.id,
+    ]);
+    res.status(200).json({ success: true, data: getMe });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
   }
 };
