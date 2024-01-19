@@ -9,11 +9,12 @@ export const privateRoutes = async (req, res, next) => {
       .json({ success: false, msg: "Anda tidak punya Akses!" });
   }
   try {
-    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET).token;
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     const userDetail = await db.execute(`SELECT * FROM users WHERE id = ?`, [
-      decoded,
+      decoded.id,
     ]);
     req.user = userDetail[0][0];
+    // return res.status(400).json({ success: false, msg: req.user });
     next();
   } catch (error) {
     res.status(500).json({ success: false, msg: error.message });

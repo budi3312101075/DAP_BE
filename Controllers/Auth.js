@@ -97,9 +97,20 @@ export const Login = async (req, res) => {
     const no_telepon = user[0].no_telepon;
 
     let body = { loggedInUsername, nama, role, no_telepon };
-    const token = jwt.sign({ token: userId }, process.env.ACCESS_TOKEN_SECRET, {
-      expiresIn: "1d",
-    });
+    const token = jwt.sign(
+      {
+        id: userId,
+        username: loggedInUsername,
+        nama: nama,
+        email: email,
+        role: role,
+        no_telepon: no_telepon,
+      },
+      process.env.ACCESS_TOKEN_SECRET,
+      {
+        expiresIn: "1d",
+      }
+    );
 
     const options = {
       httpOnly: false,
@@ -109,7 +120,7 @@ export const Login = async (req, res) => {
     return res
       .status(200)
       .cookie("token", token, options)
-      .json({ success: true, data: body });
+      .json({ success: true, data: token });
   } catch (error) {
     console.error("Terjadi kesalahan:", error);
     return res.status(500).json({ msg: "Terjadi kesalahan pada server" });
@@ -134,7 +145,7 @@ export const getMe = async (req, res) => {
       // req.user.token,
       req.user.id,
     ]);
-    res.status(200).json({ success: true, data: getMe });
+    res.status(200).json({ success: true, data: getMe[0] });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
