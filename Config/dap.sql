@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 18 Jan 2024 pada 03.40
+-- Waktu pembuatan: 20 Jan 2024 pada 11.59
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -24,6 +24,36 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `pengajuan`
+--
+
+CREATE TABLE `pengajuan` (
+  `id_pengajuan` int(10) NOT NULL,
+  `tanggal` date NOT NULL,
+  `nominal` bigint(30) NOT NULL,
+  `deskripsi` varchar(500) NOT NULL,
+  `jenis_bantuan` varchar(30) NOT NULL,
+  `bukti` varchar(255) NOT NULL,
+  `bukti_transfer` varchar(255) NOT NULL,
+  `status` varchar(50) NOT NULL,
+  `deskripsi_status` varchar(255) NOT NULL,
+  `is_Deleted` tinyint(1) NOT NULL,
+  `id_users` int(10) NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updatedAt` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `pengajuan`
+--
+
+INSERT INTO `pengajuan` (`id_pengajuan`, `tanggal`, `nominal`, `deskripsi`, `jenis_bantuan`, `bukti`, `bukti_transfer`, `status`, `deskripsi_status`, `is_Deleted`, `id_users`, `createdAt`, `updatedAt`) VALUES
+(49, '2005-05-01', 30000000, 'tes bantuan', 'tess bantuann bg', '17057481372821685891973142.JPG', '1705748240408DAP.jpg', 'selesai', 'selesai', 0, 42, '2024-01-20 10:55:37', '2024-01-20 10:57:20'),
+(50, '2005-05-01', 30000000, 'tes bantuan', 'tess bantuann bg', '17057481394761685891973142.JPG', '1705748246136DAP.jpg', 'selesai', 'selesai', 0, 42, '2024-01-20 10:55:39', '2024-01-20 10:57:26');
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `users`
 --
 
@@ -34,7 +64,7 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `role` varchar(15) NOT NULL,
   `email` varchar(30) NOT NULL,
-  `no_telepon` bigint(20) NOT NULL,
+  `no_telepon` varchar(20) NOT NULL,
   `is_Deleted` tinyint(1) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT current_timestamp(),
   `updatedAt` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
@@ -45,15 +75,22 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `nama`, `username`, `password`, `role`, `email`, `no_telepon`, `is_Deleted`, `createdAt`, `updatedAt`) VALUES
-(39, 'Karyawan', 'Karyawan', '$2b$10$HSaMSb.mnvt56ReAdfSGvuKoqcieQCzYvQm3wJoz4rZAUaojrYpzS', 'Karyawan', 'Karyawan@gmail.com', 89519113444, 0, '2024-01-09 14:33:50', '2024-01-10 15:02:09'),
-(40, 'Admin', 'Admin', '$2b$10$StfCShqQuSyBnKe0wwg/yuf3lzNMCmAZVKjmUppUDYvhUytC1.TYG', 'Admin', 'Admin@gmail.com', 89519113444, 0, '2024-01-09 14:34:04', '2024-01-09 16:32:34'),
-(41, 'SuperAdmin', 'SuperAdmin', '$2b$10$O93dyg5IckE9yDH6aT2ALOIZ/8X5g2UYrp73GZGu8Yuw8wr8sq8RG', 'SuperAdmin', 'SuperAdmin@gmail.com', 89519113444, 0, '2024-01-09 14:34:31', '2024-01-09 14:34:31'),
-(42, 'Manajemen', 'Manajemen', '$2b$10$sKHXpgt0cZCjIDlzpzkq5ecy4mOUg5ipC2yRC5zVn37UUP0HGhV1K', 'Manajemen', 'Manajemen@gmail.com', 89519113444, 0, '2024-01-09 14:34:39', '2024-01-10 15:03:32'),
-(43, 'tes', 'tes', '$2b$10$y.kjkpZl/m5yTjGclMf19.SN5Jgohtm67W638wjyZUmuQUsgVwAlq', 'tes', 'tes@gmail.com', 89519113444, 0, '2024-01-11 02:41:07', '2024-01-11 02:41:07');
+(39, 'Karyawan', 'Karyawan', '$2b$10$HSaMSb.mnvt56ReAdfSGvuKoqcieQCzYvQm3wJoz4rZAUaojrYpzS', 'Karyawan', 'Karyawan@gmail.com', '89519113444', 0, '2024-01-09 14:33:50', '2024-01-10 15:02:09'),
+(40, 'Admin', 'Admin', '$2b$10$StfCShqQuSyBnKe0wwg/yuf3lzNMCmAZVKjmUppUDYvhUytC1.TYG', 'Admin', 'Admin@gmail.com', '89519113444', 0, '2024-01-09 14:34:04', '2024-01-09 16:32:34'),
+(41, 'SuperAdmin', 'SuperAdmin', '$2b$10$O93dyg5IckE9yDH6aT2ALOIZ/8X5g2UYrp73GZGu8Yuw8wr8sq8RG', 'SuperAdmin', 'SuperAdmin@gmail.com', '89519113444', 0, '2024-01-09 14:34:31', '2024-01-09 14:34:31'),
+(42, 'Manajemen', 'Manajemen', '$2b$10$sKHXpgt0cZCjIDlzpzkq5ecy4mOUg5ipC2yRC5zVn37UUP0HGhV1K', 'Manajemen', 'Manajemen@gmail.com', '89519113444', 0, '2024-01-09 14:34:39', '2024-01-10 15:03:32'),
+(43, 'tes', 'tes', '$2b$10$y.kjkpZl/m5yTjGclMf19.SN5Jgohtm67W638wjyZUmuQUsgVwAlq', 'tes', 'tes@gmail.com', '89519113444', 0, '2024-01-11 02:41:07', '2024-01-11 02:41:07');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indeks untuk tabel `pengajuan`
+--
+ALTER TABLE `pengajuan`
+  ADD PRIMARY KEY (`id_pengajuan`),
+  ADD KEY `id_users` (`id_users`);
 
 --
 -- Indeks untuk tabel `users`
@@ -66,10 +103,26 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT untuk tabel `pengajuan`
+--
+ALTER TABLE `pengajuan`
+  MODIFY `id_pengajuan` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+
+--
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+
+--
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+--
+
+--
+-- Ketidakleluasaan untuk tabel `pengajuan`
+--
+ALTER TABLE `pengajuan`
+  ADD CONSTRAINT `pengajuan_ibfk_1` FOREIGN KEY (`id_users`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
