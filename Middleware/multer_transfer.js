@@ -1,8 +1,9 @@
 import multer from "multer";
+import { fileDir } from "../Utils/file_handler.cjs";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "D:/Project/dap_be/public/bukti_transfer/");
+    cb(null, fileDir());
   },
   filename: function (req, file, cb) {
     // validatin mime type in here

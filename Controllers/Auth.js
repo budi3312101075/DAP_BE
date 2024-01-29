@@ -113,7 +113,7 @@ export const Login = async (req, res) => {
     );
 
     const options = {
-      httpOnly: false,
+      httpOnly: true,
       maxAge: 3600000 * 1 * 24,
     };
 
