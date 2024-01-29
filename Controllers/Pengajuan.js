@@ -35,11 +35,11 @@ export const getPengajuanByUsers = async (req, res) => {
 
 // get pengajuan berdasarkan id pengajuan - bisa digukan untuk edit per id
 export const getPengajuanById = async (req, res) => {
-  const { id_pengajuan } = req.params;
+  const { id } = req.params;
   try {
     const query = await db.execute(
-      `SELECT * FROM pengajuan where is_Deleted = 0 AND id_pengajuan = ?`,
-      [id_pengajuan]
+      `SELECT * FROM pengajuan where is_Deleted = 0 AND id = ?`,
+      [id]
     );
     const pengajuan = query[0];
     return res.status(200).json({ success: true, data: pengajuan });
@@ -82,7 +82,7 @@ export const pengajuan = async (req, res) => {
 
 // digunakan untuk admin dalam melakukan konfirmasi pengajuan dari karyawan
 export const konfirmasiPengajuan = async (req, res) => {
-  const { id_pengajuan } = req.params;
+  const { id } = req.params;
   const { status, deskripsi_status } = req.body;
 
   try {
@@ -90,8 +90,8 @@ export const konfirmasiPengajuan = async (req, res) => {
     if (status.toLowerCase() === "ditangguhkan") {
       // Jika status adalah "ditangguhkan", tidak perlu upload gambar
       await db.execute(
-        `UPDATE pengajuan SET status = ?, deskripsi_status = ? WHERE id_pengajuan = ?;`,
-        [status, deskripsi_status, id_pengajuan]
+        `UPDATE pengajuan SET status = ?, deskripsi_status = ? WHERE id = ?;`,
+        [status, deskripsi_status, id]
       );
 
       return res
@@ -113,8 +113,8 @@ export const konfirmasiPengajuan = async (req, res) => {
     }
 
     await db.execute(
-      `UPDATE pengajuan SET bukti_transfer = ?, status = ?, deskripsi_status = ? WHERE id_pengajuan = ?;`,
-      [bukti_transfer, status, deskripsi_status, id_pengajuan]
+      `UPDATE pengajuan SET bukti_transfer = ?, status = ?, deskripsi_status = ? WHERE id = ?;`,
+      [bukti_transfer, status, deskripsi_status, id]
     );
 
     return res
@@ -127,7 +127,7 @@ export const konfirmasiPengajuan = async (req, res) => {
 
 // digunakan untuk karyawan mengajukan ulang pengajuannya yang
 export const updatePengajuan = async (req, res) => {
-  const { id_pengajuan } = req.params;
+  const { id } = req.params;
   const { nominal, bukti, jenis_bantuan, deskripsi } = req.body;
   try {
     if (req.file === undefined) {
@@ -143,8 +143,8 @@ export const updatePengajuan = async (req, res) => {
     }
 
     await db.execute(
-      `UPDATE pengajuan SET nominal = ?, bukti = ?, jenis_bantuan = ?, deskripsi = ?, status = "" WHERE id_pengajuan = ?;`,
-      [nominal, bukti, jenis_bantuan, deskripsi, id_pengajuan]
+      `UPDATE pengajuan SET nominal = ?, bukti = ?, jenis_bantuan = ?, deskripsi = ?, status = "" WHERE id = ?;`,
+      [nominal, bukti, jenis_bantuan, deskripsi, id]
     );
     return res
       .status(200)
@@ -158,12 +158,9 @@ export const updatePengajuan = async (req, res) => {
 
 // digunakan untuk admin dalam menghapus pengajuan dengan soft delated, data tidak akan dihapus dari database
 export const deletedPengajuan = async (req, res) => {
-  const { id_pengajuan } = req.params;
+  const { id } = req.params;
   try {
-    await db.execute(
-      `UPDATE pengajuan SET is_Deleted = 1 WHERE id_pengajuan = ?;`,
-      [id_pengajuan]
-    );
+    await db.execute(`UPDATE pengajuan SET is_Deleted = 1 WHERE id = ?;`, [id]);
     return res
       .status(200)
       .json({ success: true, msg: "pengajuan berhasil di hapus" });

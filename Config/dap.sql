@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Waktu pembuatan: 29 Jan 2024 pada 12.37
+-- Waktu pembuatan: 29 Jan 2024 pada 12.46
 -- Versi server: 8.0.30
 -- Versi PHP: 8.1.10
 
@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `pengajuan` (
-  `id_pengajuan` int NOT NULL,
+  `id` int NOT NULL,
   `tanggal` date NOT NULL,
   `nominal` bigint NOT NULL,
   `deskripsi` varchar(500) COLLATE utf8mb4_general_ci NOT NULL,
@@ -47,8 +47,8 @@ CREATE TABLE `pengajuan` (
 -- Dumping data untuk tabel `pengajuan`
 --
 
-INSERT INTO `pengajuan` (`id_pengajuan`, `tanggal`, `nominal`, `deskripsi`, `jenis_bantuan`, `bukti`, `bukti_transfer`, `status`, `deskripsi_status`, `is_Deleted`, `id_users`, `createdAt`, `updatedAt`) VALUES
-(75, '2024-01-29', 1000000, 'bantuan untuk anak saya menikah', 'Bantuan menikah', '1706531621281IL.jpg', '', '', '', 0, 39, '2024-01-29 12:33:41', '2024-01-29 12:33:41');
+INSERT INTO `pengajuan` (`id`, `tanggal`, `nominal`, `deskripsi`, `jenis_bantuan`, `bukti`, `bukti_transfer`, `status`, `deskripsi_status`, `is_Deleted`, `id_users`, `createdAt`, `updatedAt`) VALUES
+(76, '2024-01-29', 1000000, 'tgtgth', 'Bantuan menikah', '170653211420529652926413687e197594b72d6c7eff7.jpg', '', '', '', 0, 39, '2024-01-29 12:39:22', '2024-01-29 12:41:54');
 
 -- --------------------------------------------------------
 
@@ -88,7 +88,7 @@ INSERT INTO `users` (`id`, `nama`, `username`, `password`, `role`, `email`, `no_
 -- Indeks untuk tabel `pengajuan`
 --
 ALTER TABLE `pengajuan`
-  ADD PRIMARY KEY (`id_pengajuan`),
+  ADD PRIMARY KEY (`id`),
   ADD KEY `id_users` (`id_users`);
 
 --
@@ -105,7 +105,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `pengajuan`
 --
 ALTER TABLE `pengajuan`
-  MODIFY `id_pengajuan` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`

@@ -17,10 +17,10 @@ const router = express.Router();
 
 router.get("/pengajuan", getAllPengajuan);
 router.get("/pengajuanUsers", privateRoutes, getPengajuanByUsers);
-router.get("/pengajuan/:id_pengajuan", getPengajuanById);
+router.get("/pengajuan/:id", getPengajuanById);
 router.post("/pengajuan", multer, pengajuan);
-router.patch("/updatePengajuan/:id_pengajuan", multer, updatePengajuan);
-router.patch("/konfirmasi/:id_pengajuan", multer_transfer, konfirmasiPengajuan);
-router.patch("/pengajuan/:id_pengajuan", deletedPengajuan);
+router.patch("/updatePengajuan/:id", multer, updatePengajuan);
+router.patch("/konfirmasi/:id", multer_transfer, konfirmasiPengajuan);
+router.patch("/pengajuan/:id", deletedPengajuan);
 
 export default router;
