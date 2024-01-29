@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Waktu pembuatan: 20 Jan 2024 pada 11.59
--- Versi server: 10.4.28-MariaDB
--- Versi PHP: 8.2.4
+-- Host: localhost:3306
+-- Waktu pembuatan: 29 Jan 2024 pada 12.37
+-- Versi server: 8.0.30
+-- Versi PHP: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,19 +28,19 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `pengajuan` (
-  `id_pengajuan` int(10) NOT NULL,
+  `id_pengajuan` int NOT NULL,
   `tanggal` date NOT NULL,
-  `nominal` bigint(30) NOT NULL,
-  `deskripsi` varchar(500) NOT NULL,
-  `jenis_bantuan` varchar(30) NOT NULL,
-  `bukti` varchar(255) NOT NULL,
-  `bukti_transfer` varchar(255) NOT NULL,
-  `status` varchar(50) NOT NULL,
-  `deskripsi_status` varchar(255) NOT NULL,
+  `nominal` bigint NOT NULL,
+  `deskripsi` varchar(500) COLLATE utf8mb4_general_ci NOT NULL,
+  `jenis_bantuan` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
+  `bukti` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `bukti_transfer` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `deskripsi_status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `is_Deleted` tinyint(1) NOT NULL,
-  `id_users` int(10) NOT NULL,
-  `createdAt` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updatedAt` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `id_users` int NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -48,8 +48,7 @@ CREATE TABLE `pengajuan` (
 --
 
 INSERT INTO `pengajuan` (`id_pengajuan`, `tanggal`, `nominal`, `deskripsi`, `jenis_bantuan`, `bukti`, `bukti_transfer`, `status`, `deskripsi_status`, `is_Deleted`, `id_users`, `createdAt`, `updatedAt`) VALUES
-(49, '2005-05-01', 30000000, 'tes bantuan', 'tess bantuann bg', '17057481372821685891973142.JPG', '1705748240408DAP.jpg', 'selesai', 'selesai', 0, 42, '2024-01-20 10:55:37', '2024-01-20 10:57:20'),
-(50, '2005-05-01', 30000000, 'tes bantuan', 'tess bantuann bg', '17057481394761685891973142.JPG', '1705748246136DAP.jpg', 'selesai', 'selesai', 0, 42, '2024-01-20 10:55:39', '2024-01-20 10:57:26');
+(75, '2024-01-29', 1000000, 'bantuan untuk anak saya menikah', 'Bantuan menikah', '1706531621281IL.jpg', '', '', '', 0, 39, '2024-01-29 12:33:41', '2024-01-29 12:33:41');
 
 -- --------------------------------------------------------
 
@@ -58,16 +57,16 @@ INSERT INTO `pengajuan` (`id_pengajuan`, `tanggal`, `nominal`, `deskripsi`, `jen
 --
 
 CREATE TABLE `users` (
-  `id` int(10) NOT NULL,
-  `nama` varchar(30) NOT NULL,
-  `username` varchar(30) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `role` varchar(15) NOT NULL,
-  `email` varchar(30) NOT NULL,
-  `no_telepon` varchar(20) NOT NULL,
+  `id` int NOT NULL,
+  `nama` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
+  `username` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `role` varchar(15) COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
+  `no_telepon` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
   `is_Deleted` tinyint(1) NOT NULL,
-  `createdAt` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updatedAt` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -106,13 +105,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `pengajuan`
 --
 ALTER TABLE `pengajuan`
-  MODIFY `id_pengajuan` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id_pengajuan` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
@@ -122,7 +121,7 @@ ALTER TABLE `users`
 -- Ketidakleluasaan untuk tabel `pengajuan`
 --
 ALTER TABLE `pengajuan`
-  ADD CONSTRAINT `pengajuan_ibfk_1` FOREIGN KEY (`id_users`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `pengajuan_ibfk_1` FOREIGN KEY (`id_users`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
