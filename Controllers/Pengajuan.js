@@ -4,9 +4,11 @@ import db from "../Config/Db.js";
 export const getAllPengajuan = async (req, res) => {
   try {
     const query = await db.execute(
-      `SELECT * FROM users 
-      INNER JOIN pengajuan ON users.id = pengajuan.id_users 
-      WHERE pengajuan.is_Deleted = 0;`
+      `SELECT users.nama, users.no_telepon, pengajuan.id,pengajuan.tanggal, pengajuan.deskripsi, pengajuan.nominal, pengajuan.bukti, pengajuan.status, pengajuan.deskripsi_status, kriteria.jenis_bantuan
+FROM pengajuan
+INNER JOIN users ON users.id = pengajuan.id_users
+INNER JOIN kriteria ON pengajuan.id_kriteria = kriteria.id
+WHERE pengajuan.is_Deleted = 0;`
     );
     const pengajuan = query[0];
     return res.status(200).json({ success: true, data: pengajuan });
@@ -20,8 +22,11 @@ export const getAllPengajuan = async (req, res) => {
 export const getPengajuanByUsers = async (req, res) => {
   try {
     const query = await db.execute(
-      `SELECT * FROM users 
-      INNER JOIN pengajuan ON users.id = pengajuan.id_users 
+      `SELECT pengajuan.id, pengajuan.tanggal, pengajuan.nominal, 
+      kriteria.jenis_bantuan, pengajuan.deskripsi, pengajuan.bukti_transfer, 
+      pengajuan.status, pengajuan.deskripsi_status 
+      FROM pengajuan INNER JOIN users ON users.id = pengajuan.id_users 
+      INNER JOIN kriteria ON pengajuan.id_kriteria = kriteria.id 
       WHERE pengajuan.is_Deleted = 0 AND pengajuan.id_users = ?;`,
       [req.user.id]
     );
@@ -51,7 +56,7 @@ export const getPengajuanById = async (req, res) => {
 
 // tambah pengajuan dari karyawan
 export const pengajuan = async (req, res) => {
-  const { tanggal, nominal, deskripsi, jenis_bantuan, bukti, id_users } =
+  const { tanggal, nominal, deskripsi, id_kriteria, bukti, id_users } =
     req.body;
 
   try {
@@ -68,15 +73,15 @@ export const pengajuan = async (req, res) => {
     }
 
     await db.execute(
-      `INSERT INTO pengajuan (tanggal, nominal, deskripsi, jenis_bantuan, bukti, bukti_transfer, status, deskripsi_status, is_Deleted, id_users) VALUES (?, ?, ?, ?, ?,"","","",0, ? );`,
-      [tanggal, nominal, deskripsi, jenis_bantuan, bukti, id_users]
+      `INSERT INTO pengajuan (tanggal, nominal, deskripsi, id_kriteria, bukti, bukti_transfer, status, deskripsi_status, is_Deleted, id_users) VALUES (?, ?, ?, ?, ?,"","","",0, ? );`,
+      [tanggal, nominal, deskripsi, id_kriteria, bukti, id_users]
     );
     return res
       .status(200)
       .json({ success: true, msg: "pengajuan berhasil ditambahkan" });
   } catch (error) {
-    // console.log("Terjadi kesalahan:", error);
-    return res.status(500).json({ msg: "terjadi kesalahan" });
+    console.log("Terjadi kesalahan:", error);
+    // return res.status(500).json({ msg: "terjadi kesalahan" });
   }
 };
 
@@ -128,7 +133,7 @@ export const konfirmasiPengajuan = async (req, res) => {
 // digunakan untuk karyawan mengajukan ulang pengajuannya yang
 export const updatePengajuan = async (req, res) => {
   const { id } = req.params;
-  const { nominal, bukti, jenis_bantuan, deskripsi } = req.body;
+  const { nominal, bukti, id_kriteria, deskripsi } = req.body;
   try {
     if (req.file === undefined) {
       return res.status(400).json({ msg: "No file uploaded" });
@@ -143,8 +148,8 @@ export const updatePengajuan = async (req, res) => {
     }
 
     await db.execute(
-      `UPDATE pengajuan SET nominal = ?, bukti = ?, jenis_bantuan = ?, deskripsi = ?, status = "" WHERE id = ?;`,
-      [nominal, bukti, jenis_bantuan, deskripsi, id]
+      `UPDATE pengajuan SET nominal = ?, bukti = ?, id_kriteria = ?, deskripsi = ?, status = "" WHERE id = ?;`,
+      [nominal, bukti, id_kriteria, deskripsi, id]
     );
     return res
       .status(200)
