@@ -92,7 +92,10 @@ export const konfirmasiPengajuan = async (req, res) => {
 
   try {
     // Periksa apakah status adalah "ditangguhkan"
-    if (status.toLowerCase() === "ditangguhkan") {
+    if (
+      status.toLowerCase() == "ditangguhkan" ||
+      status.toLowerCase() == "tolak"
+    ) {
       // Jika status adalah "ditangguhkan", tidak perlu upload gambar
       await db.execute(
         `UPDATE pengajuan SET status = ?, deskripsi_status = ? WHERE id = ?;`,

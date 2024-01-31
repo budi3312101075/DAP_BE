@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Waktu pembuatan: 30 Jan 2024 pada 08.04
+-- Waktu pembuatan: 31 Jan 2024 pada 16.04
 -- Versi server: 8.0.30
 -- Versi PHP: 8.1.10
 
@@ -33,16 +33,11 @@ CREATE TABLE `kriteria` (
   `nominal` int NOT NULL,
   `keterangan` longtext NOT NULL,
   `dokumen` longtext NOT NULL,
-  `batas_waktu` int NOT NULL
+  `batas_waktu` int NOT NULL,
+  `is_Deleted` tinyint(1) NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data untuk tabel `kriteria`
---
-
-INSERT INTO `kriteria` (`id`, `jenis_bantuan`, `nominal`, `keterangan`, `dokumen`, `batas_waktu`) VALUES
-(1, 'bantuan menikah', 100000, 'hanya untuk karyawan dan anak yg menikah', 'harus bukti surat undangan dan buku nikah', 10),
-(2, 'bantuan keguguran', 200000, 'bantuan untuk istri keguguran', 'efefefeffe', 90);
 
 -- --------------------------------------------------------
 
@@ -65,15 +60,6 @@ CREATE TABLE `pengajuan` (
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data untuk tabel `pengajuan`
---
-
-INSERT INTO `pengajuan` (`id`, `tanggal`, `nominal`, `deskripsi`, `bukti`, `bukti_transfer`, `status`, `deskripsi_status`, `is_Deleted`, `id_users`, `id_kriteria`, `createdAt`, `updatedAt`) VALUES
-(84, '2024-01-30', 34335353, 'pliss bg ', '170660061466229652926413687e197594b72d6c7eff7.jpg', '170660066550329652926413687e197594b72d6c7eff7.jpg', 'selesai', 'selesai', 0, 39, 2, '2024-01-30 06:56:39', '2024-01-30 07:44:25'),
-(85, '2024-01-30', 20000000, 'bantuann anak saya', '1706600121721070114085919-batam.jpg', '170660020515929652926413687e197594b72d6c7eff7.jpg', 'selesai', 'selesai', 0, 39, 1, '2024-01-30 07:35:21', '2024-01-30 07:36:45'),
-(86, '2024-01-30', 1000000, 'bantuan anak saya menikah', '1706601590356434.png', '1706601630172download.jpeg', 'selesai', 'selesai', 1, 39, 2, '2024-01-30 07:58:09', '2024-01-30 08:00:47');
 
 -- --------------------------------------------------------
 
@@ -137,13 +123,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `kriteria`
 --
 ALTER TABLE `kriteria`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT untuk tabel `pengajuan`
 --
 ALTER TABLE `pengajuan`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
