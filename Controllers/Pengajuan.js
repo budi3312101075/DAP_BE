@@ -1,3 +1,4 @@
+import { compare } from "bcrypt";
 import db from "../Config/Db.js";
 
 // pakai untuk admin get semua data pengajuan
@@ -72,6 +73,45 @@ export const pengajuan = async (req, res) => {
       return res.status(422).json({ msg: "Image must be smaller than 5MB" });
     }
 
+    // Cek apakah pengguna sudah mengajukan sebelumnya
+    const existingPengajuan = await db.execute(
+      "SELECT * FROM pengajuan WHERE id_users = ? AND id_kriteria = ? AND is_Deleted = 0 ORDER BY tanggal DESC LIMIT 1",
+      [id_users, id_kriteria]
+    );
+
+    // jika telah mengajukan sebelumnya masuk ke if ini
+    if (existingPengajuan[0].length > 0) {
+      // Inisilisasi variabel jenisBantuanSekarang = id_kriteria
+      const jenisBantuanSekarang = id_kriteria;
+
+      // Cek apakah jenis bantuan sama
+      if (jenisBantuanSekarang == existingPengajuan[0][0].id_kriteria) {
+        // jika sama akan masuk ke if ini untuk mengecek lama batas waktu cooldownnya
+        const batasWaktuValue = await db.execute(
+          `SELECT kriteria.batas_waktu FROM pengajuan INNER JOIN users ON users.id = pengajuan.id_users INNER JOIN kriteria ON pengajuan.id_kriteria = kriteria.id WHERE kriteria.id = ? LIMIT 1;`,
+          [jenisBantuanSekarang]
+        );
+
+        // masukan jumlah waktu nya
+        const cooldownWaktu = batasWaktuValue[0][0].batas_waktu; // Misalnya cooldown waktu dalam hari
+
+        const waktuPengajuanSebelumnya = new Date(
+          existingPengajuan[0][0].tanggal
+        );
+        const waktuCooldown = new Date();
+        // kurangin Waktu cooldown dengan Waktu pengajuan sebelumnya
+        waktuCooldown.setDate(waktuCooldown.getDate() - cooldownWaktu);
+
+        // Jika waktu pengajuan sebelumnya lebih besar dari waktu cooldown,
+        // artinya pengajuan masih dalam masa cooldown.
+        if (waktuPengajuanSebelumnya > waktuCooldown) {
+          return res
+            .status(422)
+            .json({ msg: "Pengajuan ditolak karena masih dalam cooldown" });
+        }
+      }
+    }
+
     await db.execute(
       `INSERT INTO pengajuan (tanggal, nominal, deskripsi, id_kriteria, bukti, bukti_transfer, status, deskripsi_status, is_Deleted, id_users) VALUES (?, ?, ?, ?, ?,"","","",0, ? );`,
       [tanggal, nominal, deskripsi, id_kriteria, bukti, id_users]
@@ -80,8 +120,8 @@ export const pengajuan = async (req, res) => {
       .status(200)
       .json({ success: true, msg: "pengajuan berhasil ditambahkan" });
   } catch (error) {
-    console.log("Terjadi kesalahan:", error);
-    // return res.status(500).json({ msg: "terjadi kesalahan" });
+    // console.log("Terjadi kesalahan:", error);
+    return res.status(500).json({ msg: "terjadi kesalahan" });
   }
 };
 

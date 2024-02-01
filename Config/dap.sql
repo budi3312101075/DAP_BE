@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Waktu pembuatan: 31 Jan 2024 pada 16.04
+-- Waktu pembuatan: 01 Feb 2024 pada 07.21
 -- Versi server: 8.0.30
 -- Versi PHP: 8.1.10
 
@@ -38,6 +38,14 @@ CREATE TABLE `kriteria` (
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data untuk tabel `kriteria`
+--
+
+INSERT INTO `kriteria` (`id`, `jenis_bantuan`, `nominal`, `keterangan`, `dokumen`, `batas_waktu`, `is_Deleted`, `createdAt`, `updatedAt`) VALUES
+(34, 'bantuan menikah', 1000000, 'untuk anak saya menikah', 'buku menikah', 1, 0, '2024-02-01 03:25:10', '2024-02-01 03:25:10'),
+(35, 'Ut magnam odio commo', 332424, 'Provident quia quia', 'Ut id inventore min', 32, 0, '2024-02-01 04:05:14', '2024-02-01 04:05:14');
 
 -- --------------------------------------------------------
 
@@ -123,13 +131,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `kriteria`
 --
 ALTER TABLE `kriteria`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT untuk tabel `pengajuan`
 --
 ALTER TABLE `pengajuan`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
