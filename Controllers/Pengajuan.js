@@ -147,6 +147,24 @@ export const konfirmasiPengajuan = async (req, res) => {
         .json({ success: true, msg: "pengajuan berhasil di konfirmasi" });
     }
 
+    if (status.toLowerCase() === "selesai") {
+      const pengajuanData = await db.query(
+        `SELECT kriteria.jenis_bantuan, pengajuan.nominal, pengajuan.tanggal FROM pengajuan INNER JOIN kriteria ON kriteria.id = pengajuan.id_kriteria WHERE pengajuan.id = ? LIMIT 1;
+        `,
+        [id]
+      );
+
+      const keterangan = pengajuanData[0][0].jenis_bantuan;
+      const nominal = pengajuanData[0][0].nominal;
+      const tanggal = pengajuanData[0][0].tanggal;
+
+      // Masukkan data ke dalam tabel keuangan
+      await db.execute(
+        `INSERT INTO keuangan (status, keterangan, tanggal, nominal, is_Deleted) VALUES ("pengeluaran", ?, ?, ?, 0);`,
+        [keterangan, tanggal, nominal]
+      );
+    }
+
     // Lanjutkan dengan upload gambar jika status bukan "ditangguhkan"
     if (req.file === undefined) {
       return res.status(400).json({ msg: "No file uploaded" });
@@ -169,7 +187,7 @@ export const konfirmasiPengajuan = async (req, res) => {
       .status(200)
       .json({ success: true, msg: "pengajuan berhasil di konfirmasi" });
   } catch (error) {
-    return res.status(500).json({ msg: "terjadi kesalahan" });
+    return res.status(500).json({ msg: "terjadi kesalahan", error: error });
   }
 };
 
