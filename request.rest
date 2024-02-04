@@ -47,3 +47,13 @@ POST    http://localhost:5000/blockUser/43
 
 ###
 PATCH http://localhost:5000/deletedUser/47
+
+###
+PATCH http://localhost:5000/resetPassword/42
+Content-Type: application/json
+
+{
+    "currentPassword": "Manajemen",
+    "newPassword": "budiprayoga",
+    "confirmPassword": "budiprayoga"
+}
