@@ -5,6 +5,9 @@ import {
   Login,
   Logout,
   getMe,
+  blockUser,
+  updateUser,
+  deletedUser,
 } from "../Controllers/Auth.js";
 // import { refreshToken } from "../Controllers/RefreshToken.js";
 import { access, privateRoutes } from "../Middleware/Private.js";
@@ -18,9 +21,12 @@ router.get(
   getUsers
 );
 router.post("/Users", Register);
+router.patch("/Users/:id", privateRoutes, updateUser);
+router.patch("/deletedUser/:id", privateRoutes, deletedUser);
 router.post("/Login", Login);
 router.get("/getMe", privateRoutes, getMe);
 router.get("/Logout", Logout);
+router.post("/blockUser/:id", blockUser);
 // router.get("/token", refreshToken);
 
 export default router;

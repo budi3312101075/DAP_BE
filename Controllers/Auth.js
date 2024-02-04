@@ -4,7 +4,9 @@ import jwt from "jsonwebtoken";
 
 export const getUsers = async (req, res) => {
   try {
-    const query = await db.execute(`SELECT * FROM users`);
+    const query = await db.execute(
+      `SELECT users.id, users.nama, users.username, users.role, users.email, users.no_telepon, users.is_Blocked FROM users WHERE users.is_Deleted = 0;`
+    );
     const users = query[0]; // Mendapatkan data hasil query dari index 0 pada array
 
     return res.status(200).json({ success: true, data: users });
@@ -32,15 +34,15 @@ export const Register = async (req, res) => {
     );
 
     if (isUserExist[0].length > 0 && isEmailExist[0].length > 0) {
-      return res.status(200).json({
+      return res.status(400).json({
         failed: "Username dan Email sudah digunakan",
       });
     } else if (isUserExist[0].length > 0) {
-      return res.status(200).json({
+      return res.status(400).json({
         failed: "Username sudah digunakan",
       });
     } else if (isEmailExist[0].length > 0) {
-      return res.status(200).json({
+      return res.status(400).json({
         failed: "Email sudah digunakan",
       });
     } else {
@@ -49,8 +51,8 @@ export const Register = async (req, res) => {
 
       await db.query(
         `
-        INSERT INTO users (nama, username, password, role, email, no_telepon)
-        VALUES (?, ?, ?, ?, ?, ?);`,
+        INSERT INTO users (nama, username, password, role, email, no_telepon, is_Deleted, is_Blocked)
+        VALUES (?, ?, ?, ?, ?, ?, 0, 0);`,
         [nama, username, hashPassword, role, email, no_telepon]
       );
       return res.status(200).json({
@@ -67,9 +69,10 @@ export const Login = async (req, res) => {
   const { username, password } = req.body;
   try {
     // Pengecekan apakah username ditemukan
-    const [user] = await db.execute(`SELECT * FROM users WHERE username = ?`, [
-      username,
-    ]);
+    const [user] = await db.execute(
+      `SELECT * FROM users WHERE username = ? and is_Deleted = 0 and is_Blocked = 0`,
+      [username]
+    );
 
     if (user.length === 0) {
       return res.status(404).json({ msg: "Email atau password salah" });
@@ -148,5 +151,93 @@ export const getMe = async (req, res) => {
     res.status(200).json({ success: true, data: getMe[0] });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+export const blockUser = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const dataUser = await db.execute(
+      `SELECT is_Blocked FROM users WHERE id = ?`,
+      [id]
+    );
+
+    if (dataUser[0][0].is_Blocked === 1) {
+      await db.execute(`UPDATE users SET is_Blocked = 0 WHERE id = ?;`, [id]);
+      return res
+        .status(200)
+        .json({ success: true, msg: "Akun Berhasil di unblock!" });
+    }
+
+    if (dataUser[0][0].is_Blocked === 0) {
+      await db.execute(`UPDATE users SET is_Blocked = 1 WHERE id = ?;`, [id]);
+      return res
+        .status(200)
+        .json({ success: true, msg: "Akun Berhasil di block!" });
+    }
+  } catch (error) {
+    return res.status(500).json({ msg: "Terjadi kesalahan pada server" });
+  }
+};
+
+export const updateUser = async (req, res) => {
+  const { id } = req.params;
+  const { nama, username, email, no_telepon, role } = req.body;
+  try {
+    const isUserExist = await db.execute(
+      `SELECT * FROM users WHERE username = ? AND id != ? AND is_Deleted = 0;`,
+      [username, id]
+    );
+
+    const isEmailExist = await db.execute(
+      `SELECT * FROM users WHERE email = ? AND id != ? AND is_Deleted = 0;`,
+      [email, id]
+    );
+
+    if (isUserExist[0].length > 0 && isEmailExist[0].length > 0) {
+      return res.status(400).json({
+        failed: "Username dan Email sudah digunakan",
+      });
+    } else if (isUserExist[0].length > 0) {
+      return res.status(400).json({
+        failed: "Username sudah digunakan",
+      });
+    } else if (isEmailExist[0].length > 0) {
+      return res.status(400).json({
+        failed: "Email sudah digunakan",
+      });
+    } else {
+      if (req.user.role == "Karyawan") {
+        await db.execute(
+          `UPDATE users SET username = ?, email = ?, no_telepon = ? WHERE id = ?;`,
+          [username, email, no_telepon, id]
+        );
+        return res
+          .status(200)
+          .json({ success: true, msg: "Akun Berhasil di update!" });
+      } else if (req.user.role == "SuperAdmin") {
+        await db.execute(
+          `UPDATE users SET nama = ?, username = ?, email = ?, no_telepon = ?, role = ? WHERE id = ?;`,
+          [nama, username, email, no_telepon, role, id]
+        );
+        return res
+          .status(200)
+          .json({ success: true, msg: "Akun Berhasil di update!" });
+      }
+    }
+  } catch (error) {
+    return res.status(500).json({ msg: "Terjadi kesalahan pada server" });
+  }
+};
+
+export const deletedUser = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await db.execute(`UPDATE users SET is_Deleted = 1 WHERE id = ?;`, [id]);
+    return res
+      .status(200)
+      .json({ success: true, msg: "Akun Berhasil di hapus!" });
+  } catch (error) {
+    return res.status(500).json({ msg: "Terjadi kesalahan pada server" });
   }
 };

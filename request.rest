@@ -1,18 +1,29 @@
 GET http://localhost:5000/Users
 
+
 ###
+PATCH http://localhost:5000/Users/47
+Content-Type: application/json
 
+{
+    "nama": "wdwdwdw",
+    "username": "wdwdwdw",
+    "password": "wdwdwdw",
+    "role": "Karyawan",
+    "email": "wdwdwdw@gmail.com",
+    "no_telepon": 89519113444
+}
 
+###
 POST http://localhost:5000/Users
 Content-Type: application/json
 
 {
-    "nama": "tes",
-    "username": "tes",
-    "password": "tes",
-    "confPassword": "tes",
-    "role": "tes",
-    "email": "tes@gmail.com",
+    "nama": "wokwok",
+    "username": "wokwok",
+    "password": "wokwok",
+    "role": "wokwok",
+    "email": "wokwok@gmail.com",
     "no_telepon": 89519113444
 }
 
@@ -21,8 +32,8 @@ POST http://localhost:5000/Login
 Content-Type: application/json
 
 {
-    "username": "Admin",
-    "password": "Admin"
+    "username": "SuperAdmin",
+    "password": "SuperAdmin"
 }
 
 ###
@@ -30,3 +41,9 @@ GET http://localhost:5000/getMe
 
 ###
 GET   http://localhost:5000/Logout
+
+###
+POST    http://localhost:5000/blockUser/43
+
+###
+PATCH http://localhost:5000/deletedUser/47
