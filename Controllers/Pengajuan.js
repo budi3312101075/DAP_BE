@@ -234,3 +234,29 @@ export const deletedPengajuan = async (req, res) => {
     return res.status(500).json({ msg: "terjadi kesalahan" });
   }
 };
+
+export const laporan = async (req, res) => {
+  try {
+    if (
+      req.user.role == "Admin" ||
+      req.user.role == "SuperAdmin" ||
+      req.user.role == "Manajemen"
+    ) {
+      const query = await db.execute(
+        `SELECT users.nama, users.no_telepon, pengajuan.id,pengajuan.tanggal, pengajuan.deskripsi, pengajuan.nominal, pengajuan.bukti, pengajuan.status, pengajuan.deskripsi_status, pengajuan.bukti_transfer,kriteria.jenis_bantuan FROM pengajuan INNER JOIN users ON users.id = pengajuan.id_users INNER JOIN kriteria ON pengajuan.id_kriteria = kriteria.id WHERE pengajuan.is_Deleted = 0;`
+      );
+      const laporan = query[0];
+      return res.status(200).json({ success: true, data: laporan });
+    }
+
+    if (req.user.role == "Karyawan") {
+      const query = await db.execute(
+        `SELECT pengajuan.tanggal, pengajuan.nominal, kriteria.jenis_bantuan,pengajuan.status, pengajuan.deskripsi_status FROM pengajuan INNER JOIN users ON users.id = pengajuan.id_users INNER JOIN kriteria ON pengajuan.id_kriteria = kriteria.id WHERE pengajuan.is_Deleted = 0 AND pengajuan.status = "selesai";`
+      );
+      const laporan = query[0];
+      return res.status(200).json({ success: true, data: laporan });
+    }
+  } catch (error) {
+    return res.status(500).json({ msg: "terjadi kesalahan" });
+  }
+};

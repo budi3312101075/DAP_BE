@@ -7,6 +7,7 @@ import {
   getPengajuanById,
   getPengajuanByUsers,
   konfirmasiPengajuan,
+  laporan,
   pengajuan,
   updatePengajuan,
 } from "../Controllers/Pengajuan.js";
@@ -18,6 +19,7 @@ const router = express.Router();
 router.get("/pengajuan", getAllPengajuan);
 router.get("/pengajuanUsers", privateRoutes, getPengajuanByUsers);
 router.get("/pengajuan/:id", getPengajuanById);
+router.get("/laporan", privateRoutes, laporan);
 router.post("/pengajuan", multer, pengajuan);
 router.patch("/updatePengajuan/:id", multer, updatePengajuan);
 router.patch("/konfirmasi/:id", multer_transfer, konfirmasiPengajuan);

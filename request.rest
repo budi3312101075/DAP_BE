@@ -57,3 +57,7 @@ Content-Type: application/json
     "newPassword": "budiprayoga",
     "confirmPassword": "budiprayoga"
 }
+
+
+###
+GET http://localhost:5000/laporan
