@@ -25,11 +25,11 @@ export const Register = async (req, res) => {
 
   try {
     const isUserExist = await db.execute(
-      `SELECT * FROM users WHERE username = ?;`,
+      `SELECT * FROM users WHERE username = ? AND is_Deleted = 0;`,
       [username]
     );
     const isEmailExist = await db.execute(
-      `SELECT * FROM users WHERE email = ?;`,
+      `SELECT * FROM users WHERE email = ? AND is_Deleted = 0;`,
       [email]
     );
 
