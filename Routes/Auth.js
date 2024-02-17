@@ -15,12 +15,7 @@ import { access, privateRoutes } from "../Middleware/Private.js";
 
 const router = express.Router();
 
-router.get(
-  "/Users",
-  privateRoutes,
-  access("Admin", "SuperAdmin", "Manajemen"),
-  getUsers
-);
+router.get("/Users", privateRoutes, access("Admin", "SuperAdmin"), getUsers);
 router.post("/Users", Register);
 router.patch("/Users/:id", privateRoutes, updateUser);
 router.patch("/deletedUser/:id", privateRoutes, deletedUser);
