@@ -209,7 +209,11 @@ export const updateUser = async (req, res) => {
         failed: "Email sudah digunakan",
       });
     } else {
-      if (req.user.role == "Karyawan") {
+      if (
+        req.user.role == "Karyawan" ||
+        req.user.role == "Admin" ||
+        req.user.role == "Manajemen"
+      ) {
         await db.execute(
           `UPDATE users SET username = ?, email = ?, no_telepon = ? WHERE id = ?;`,
           [username, email, no_telepon, id]

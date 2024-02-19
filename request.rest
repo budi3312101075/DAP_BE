@@ -32,8 +32,8 @@ POST http://localhost:5000/Login
 Content-Type: application/json
 
 {
-    "username": "Karyawan",
-    "password": "Karyawan"
+    "username": "Admin",
+    "password": "Admin"
 }
 
 ###
@@ -56,6 +56,17 @@ Content-Type: application/json
     "currentPassword": "Manajemen",
     "newPassword": "budiprayoga",
     "confirmPassword": "budiprayoga"
+}
+
+# update user
+###
+PATCH http://localhost:5000/Users/40
+Content-Type: application/json
+
+{
+    "username": "Admin",
+    "email": "Admin@gmail.com",
+    "no_telepon": "087872428"
 }
 
 ###
