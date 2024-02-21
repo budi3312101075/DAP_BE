@@ -56,7 +56,7 @@ export const getPengajuanById = async (req, res) => {
 };
 
 // tambah pengajuan dari karyawan
-export const pengajuan = async (req, res) => {
+export const pengajuan = async (req, res, next) => {
   const { tanggal, nominal, deskripsi, id_kriteria, bukti, id_users } =
     req.body;
 
@@ -75,7 +75,7 @@ export const pengajuan = async (req, res) => {
 
     // Cek apakah pengguna sudah mengajukan sebelumnya
     const existingPengajuan = await db.execute(
-      "SELECT * FROM pengajuan WHERE id_users = ? AND id_kriteria = ? AND is_Deleted = 0 ORDER BY tanggal DESC LIMIT 1",
+      "SELECT * FROM pengajuan WHERE id_users = ? AND id_kriteria = ? AND is_Deleted = 0 AND status != 'tolak' ORDER BY tanggal DESC LIMIT 1;",
       [id_users, id_kriteria]
     );
 
@@ -116,6 +116,7 @@ export const pengajuan = async (req, res) => {
       `INSERT INTO pengajuan (tanggal, nominal, deskripsi, id_kriteria, bukti, bukti_transfer, status, deskripsi_status, is_Deleted, id_users) VALUES (?, ?, ?, ?, ?,"","","",0, ? );`,
       [tanggal, nominal, deskripsi, id_kriteria, bukti, id_users]
     );
+    next();
     return res
       .status(200)
       .json({ success: true, msg: "pengajuan berhasil ditambahkan" });

@@ -2,7 +2,7 @@ import db from "../Config/Db.js";
 import nodemailer from "nodemailer";
 import { fileDir } from "../Utils/file_handler.cjs";
 
-export const sendEmail = async (req, res, next) => {
+export const sendEmail = async (req, res) => {
   try {
     const { tanggal, nominal, deskripsi, id_kriteria, id_users } = req.body; // Ambil data dari pengajuan
     const { filename } = req.file;
@@ -60,8 +60,6 @@ export const sendEmail = async (req, res, next) => {
     console.log(info.messageId);
     console.log(info.accepted);
     console.log(info.rejected);
-
-    next();
   } catch (error) {
     console.log(error);
   }

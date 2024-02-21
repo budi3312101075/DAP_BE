@@ -21,7 +21,7 @@ router.get("/pengajuan", getAllPengajuan);
 router.get("/pengajuanUsers", privateRoutes, getPengajuanByUsers);
 router.get("/pengajuan/:id", getPengajuanById);
 router.get("/laporan", privateRoutes, laporan);
-router.post("/pengajuan", multer, sendEmail, pengajuan);
+router.post("/pengajuan", privateRoutes, multer, pengajuan, sendEmail);
 router.patch("/updatePengajuan/:id", multer, updatePengajuan);
 router.patch("/konfirmasi/:id", multer_transfer, konfirmasiPengajuan);
 router.patch("/pengajuan/:id", deletedPengajuan);
