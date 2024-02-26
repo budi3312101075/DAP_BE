@@ -106,7 +106,7 @@ export const pengajuan = async (req, res, next) => {
         // artinya pengajuan masih dalam masa cooldown.
         if (waktuPengajuanSebelumnya > waktuCooldown) {
           return res
-            .status(422)
+            .status(400)
             .json({ msg: "Pengajuan ditolak karena masih dalam cooldown" });
         }
       }
@@ -122,7 +122,7 @@ export const pengajuan = async (req, res, next) => {
       .json({ success: true, msg: "pengajuan berhasil ditambahkan" });
   } catch (error) {
     // console.log("Terjadi kesalahan:", error);
-    return res.status(500).json({ msg: "terjadi kesalahan" });
+    return res.status(400).json({ msg: "terjadi kesalahan" });
   }
 };
 
