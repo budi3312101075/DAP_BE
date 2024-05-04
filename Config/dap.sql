@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Waktu pembuatan: 04 Feb 2024 pada 02.17
+-- Waktu pembuatan: 04 Bulan Mei 2024 pada 02.01
 -- Versi server: 8.0.30
 -- Versi PHP: 8.1.10
 
@@ -43,8 +43,9 @@ CREATE TABLE `keuangan` (
 --
 
 INSERT INTO `keuangan` (`id`, `status`, `keterangan`, `tanggal`, `nominal`, `is_Deleted`, `createdAt`, `updatedAt`) VALUES
-(26, 'pengeluaran', 'nnnnn', '2024-02-02', 1, 0, '2024-02-02 08:42:17', '2024-02-02 08:42:17'),
-(27, 'pengeluaran', 'nnnnn', '2024-02-03', 100000, 0, '2024-02-03 06:17:29', '2024-02-03 06:17:29');
+(50, 'pemasukan', 'Pemasukan bulan Mei', '2024-04-29', 10000000, 0, '2024-04-29 02:15:41', '2024-04-29 02:15:41'),
+(51, 'pengeluaran', 'khitan anak', '2024-04-29', 1000000, 0, '2024-04-29 02:20:04', '2024-04-29 02:20:04'),
+(54, 'pengeluaran', 'bantuan menikah', '2024-05-03', 500000, 0, '2024-05-03 01:45:00', '2024-05-03 01:45:00');
 
 -- --------------------------------------------------------
 
@@ -69,16 +70,12 @@ CREATE TABLE `kriteria` (
 --
 
 INSERT INTO `kriteria` (`id`, `jenis_bantuan`, `nominal`, `keterangan`, `dokumen`, `batas_waktu`, `is_Deleted`, `createdAt`, `updatedAt`) VALUES
-(43, 'mmm', 1000000, 'untuk kamu menikah', 'buku menikah', 9999999, 1, '2024-02-02 07:57:55', '2024-02-02 08:16:17'),
-(44, 'dwd', 1000000, 'untuk kamu menikah', 'buku menikah', 9999999, 1, '2024-02-02 07:57:55', '2024-02-02 08:15:16'),
-(45, 'dwwdd', 1000000, 'untuk kamu menikah', 'buku menikah', 9999999, 1, '2024-02-02 07:57:55', '2024-02-02 08:15:22'),
-(46, 'nnin', 1000000, 'untuk kamu menikah', 'buku menikah', 99999, 1, '2024-02-02 07:57:55', '2024-02-02 08:15:29'),
-(47, 'mmjmi', 1000000, 'untuk kamu menikah', 'buku menikah', 99999, 1, '2024-02-02 07:57:55', '2024-02-02 08:15:33'),
-(48, 'oopop', 1000000, 'untuk kamu menikah', 'buku menikah', 9999, 1, '2024-02-02 07:57:55', '2024-02-02 08:15:37'),
-(49, 'ppppp', 1000000, 'untuk kamu menikah', 'buku menikah', 9999, 1, '2024-02-02 07:57:55', '2024-02-02 08:15:40'),
-(50, 'iiiii', 1000000, 'untuk kamu menikah', 'buku menikah', 999, 0, '2024-02-02 07:57:55', '2024-02-02 08:15:44'),
-(51, 'o', 1000000, 'untuk kamu menikah', 'buku menikah', 99, 0, '2024-02-02 07:57:55', '2024-02-02 08:18:32'),
-(52, 'nnnnn', 1000000, 'untuk kamu menikah', 'buku menikah', 99, 0, '2024-02-02 07:57:55', '2024-02-02 08:15:52');
+(66, 'bantuan menikah', 1000000, 'plus papan bunga daerah yang bisa terjangkau dan tersedia informasi/kontrak pembelian online', 'pemberitahuan ke admin dan bagian kepegawaian', 9999, 0, '2024-03-07 10:56:31', '2024-03-07 10:56:31'),
+(67, 'keguguran trisemester II', 1000000, 'santunan duka keguguran', 'pemberitahuan ke admin dan bagian kepegawaian', 365, 0, '2024-03-07 10:56:54', '2024-03-07 10:56:54'),
+(68, 'karyawan meninggal', 8000000, '-', 'pemberitahuan ke admin dan bagian kepegawaian', 9999, 0, '2024-03-07 10:57:46', '2024-03-07 10:57:46'),
+(69, 'khitan anak', 300000, 'bisa berupa paket buah tangan senilai jumlah tersebut', 'pemberitahuan ke admin dan bagian kepegawaian', 365, 0, '2024-03-07 10:58:08', '2024-03-07 10:58:08'),
+(70, 'kecelakaan lalu lintas', 10000000, 'per tahun', 'surat keterangan hasil diagnosa dari dokter spesialis dan lab, beserta KK, pemberitahuan ke admin DAP dan bagian kepegawaian', 365, 0, '2024-03-07 10:58:33', '2024-03-07 10:58:33'),
+(71, 'bantuan meninggal', 2000000, 'plus papan bunga daerah yang bisa terjangkau dan tersedia informasi/kontrak pembelian online	', 'pemberitahuan ke admin dan bagian kepegawaian', 9999, 0, '2024-03-07 10:58:58', '2024-03-07 10:58:58');
 
 -- --------------------------------------------------------
 
@@ -107,8 +104,10 @@ CREATE TABLE `pengajuan` (
 --
 
 INSERT INTO `pengajuan` (`id`, `tanggal`, `nominal`, `deskripsi`, `bukti`, `bukti_transfer`, `status`, `deskripsi_status`, `is_Deleted`, `id_users`, `id_kriteria`, `createdAt`, `updatedAt`) VALUES
-(128, '2024-02-02', 1, 'untuk anak saya menikah', '170686212623929652926413687e197594b72d6c7eff7.jpg', '170686333735329652926413687e197594b72d6c7eff7.jpg', 'selesai', 'selesai', 0, 39, 52, '2024-02-02 07:59:37', '2024-02-02 08:42:17'),
-(129, '2024-02-03', 100000, 'tess aja', '170694101583629652926413687e197594b72d6c7eff7.jpg', '1706941049532About us page (3).gif', 'selesai', 'selesai', 0, 39, 52, '2024-02-03 06:13:59', '2024-02-03 06:17:29');
+(163, '2024-04-29', 1000000, 'anak saya akan melakukan khitanan pada awal Mei', '17143570642641707713917605khitan.jpeg', '1714357204886bukti transfer 0,5.jpg', 'selesai', 'selesai', 0, 51, 69, '2024-04-29 02:17:44', '2024-04-29 02:20:04'),
+(165, '2024-05-03', 500000, 'untuk saya menikah', '1714700635845undangan pernikahan.jpg', '1714700700340bukti transfer 0,5.jpg', 'selesai', 'selesai', 0, 51, 66, '2024-05-03 01:43:55', '2024-05-03 01:45:00'),
+(166, '2024-05-03', 1000000, 'saya sakitt', '1714701503643karangan bunga.jpg', '', 'tolak', 'ditolak karena tidak sesuai\r\n', 0, 51, 70, '2024-05-03 01:58:23', '2024-05-03 02:00:46'),
+(167, '2024-05-03', 1000000, 'saya keguguran ', '17147031664941707713917605khitan.jpeg', '', '', '', 0, 51, 67, '2024-05-03 02:26:06', '2024-05-03 02:26:06');
 
 -- --------------------------------------------------------
 
@@ -135,14 +134,18 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `nama`, `username`, `password`, `role`, `email`, `no_telepon`, `is_Deleted`, `is_Blocked`, `createdAt`, `updatedAt`) VALUES
-(39, 'Karyawan', 'Karyawan', '$2b$10$HSaMSb.mnvt56ReAdfSGvuKoqcieQCzYvQm3wJoz4rZAUaojrYpzS', 'Karyawan', 'Karyawan@gmail.com', '089519113444', 0, 0, '2024-01-09 14:33:50', '2024-02-03 14:29:12'),
-(40, 'Admin', 'Admin', '$2b$10$StfCShqQuSyBnKe0wwg/yuf3lzNMCmAZVKjmUppUDYvhUytC1.TYG', 'Admin', 'Admin@gmail.com', '089519113444', 0, 0, '2024-01-09 14:34:04', '2024-02-03 14:18:39'),
-(41, 'SuperAdmin', 'SuperAdmin', '$2b$10$O93dyg5IckE9yDH6aT2ALOIZ/8X5g2UYrp73GZGu8Yuw8wr8sq8RG', 'SuperAdmin', 'SuperAdmin@gmail.com', '089519113444', 0, 0, '2024-01-09 14:34:31', '2024-02-03 16:22:07'),
-(42, 'Manajemen', 'Manajemen', '$2b$10$sKHXpgt0cZCjIDlzpzkq5ecy4mOUg5ipC2yRC5zVn37UUP0HGhV1K', 'Manajemen', 'Manajemen@gmail.com', '089519113444', 0, 0, '2024-01-09 14:34:39', '2024-01-29 13:45:49'),
-(43, 'Budi Prayoga', 'Budiprayoga', '$2b$10$y.kjkpZl/m5yTjGclMf19.SN5Jgohtm67W638wjyZUmuQUsgVwAlq', 'SuperAdmin', 'Budiprayoga@gmail.com', '089519113444', 0, 0, '2024-01-11 02:41:07', '2024-02-04 02:15:11'),
-(46, 'budiprayoga', 'budiprayoga', '$2b$10$P0IvPv4mH92qWIFP3ySuzOjREStlg1EWSeBfwdbSb0JUJBMe9yX82', 'SuperAdmin', 'budiprayoga5103@gmail.com', '089519113444', 1, 0, '2024-02-03 13:31:11', '2024-02-03 16:18:55'),
+(40, 'Admin', 'Admin', '$2b$10$.PbxqOX4he3hAY8WDLJGleObbGp00R3hGnvPgL0bTsiKDxkuw6/Va', 'Admin', 'budiprayoga408@gmail.com', '08783244333', 0, 0, '2024-01-09 14:34:04', '2024-05-03 01:48:27'),
+(41, 'SuperAdmin', 'SuperAdmin', '$2b$10$2hJ5PKSFIUf6n4XR66AFiOPxkRiWdVCBxseRy9KuOXZbSfE0E3lPC', 'SuperAdmin', 'prayogabudi66@gmail.com', '089519113444', 0, 0, '2024-01-09 14:34:31', '2024-04-29 02:10:52'),
+(42, 'Manajemen', 'tes1', '$2b$10$E8neBEBydjEolaQRAZ5piO7gahpcHWLg0aUbUGJ0LgKLKN.ZDOvMW', 'Manajemen', 'tes1@gmail.com', '087872428', 1, 0, '2024-01-09 14:34:39', '2024-02-17 02:37:33'),
+(43, 'Budi Prayoga', 'Budiprayoga', '$2b$10$y.kjkpZl/m5yTjGclMf19.SN5Jgohtm67W638wjyZUmuQUsgVwAlq', 'Karyawan', 'Budiprayoga@gmail.com', '089519113444', 1, 0, '2024-01-11 02:41:07', '2024-02-13 14:01:17'),
+(46, 'budiprayoga', 'budiprayoga', '$2b$10$Z3DYQOUdTifWGulXAsM8COSET0v44fAnoJFm6umuwklzWIR7m8T8y', 'SuperAdmin', 'budiprayoga408@gmail.com', '089519113444', 1, 0, '2024-02-03 13:31:11', '2024-02-08 12:34:37'),
 (47, 'wdwdwdw', 'budiprayoga', '$2b$10$4Q1BceoMGkipue1hGmo.e.irhIz7mWDBw0ws3gGd.2jC6zCb8TRJS', 'Karyawan', 'wdwdwdw@gmail.com', '89519113444', 1, 0, '2024-02-03 13:44:31', '2024-02-03 16:18:54'),
-(48, 'aulia', 'aulia', '$2b$10$G6FBTawMxK7Sq6udeegCteUnzMbiw39UG83wML92TZjuxHQ9L78te', 'Karyawan', 'auliaauliaauliaaulia@gmail.com', '43335666', 1, 0, '2024-02-03 13:52:05', '2024-02-03 16:18:52');
+(48, 'aulia', 'aulia', '$2b$10$G6FBTawMxK7Sq6udeegCteUnzMbiw39UG83wML92TZjuxHQ9L78te', 'Karyawan', 'auliaauliaauliaaulia@gmail.com', '43335666', 1, 0, '2024-02-03 13:52:05', '2024-02-03 16:18:52'),
+(49, 'Manajemen', 'Manajemen3', '$2b$10$kONlxXu5uIRFdg7tyyfxbe.ws1aAY8M.9k.nJRdMk6I6WaQAZPCBy', 'Manajemen', 'ManajemenManajemen@gmail.com', '32423424', 1, 0, '2024-02-08 12:37:10', '2024-02-08 12:44:16'),
+(50, 'Manajemen', 'Manajemen', '$2b$10$LaPF6L3KIkpiADv7cG7jpOBWOAbqxCJGp4RnVkGJMsJEVPcY.IiXm', 'Manajemen', 'Manajemen@gmail.com', '08934253333', 0, 0, '2024-02-08 12:43:42', '2024-02-26 12:26:10'),
+(51, 'Karyawan', 'Karyawan', '$2b$10$bqHd.F1T2X1h8vXpRWwNl.rcA/tetICjOWT7nxc.tC47SpfZ8rzPK', 'Karyawan', 'Karyawan@gmail.com', '089519113444', 0, 0, '2024-02-13 05:35:15', '2024-05-02 13:35:56'),
+(52, 'budi', 'budi', '$2b$10$r7GnuhirAdmnLxHoji3A1upIBb0j/X1CUwCVBBM.V.voGylfEC6N.', 'Karyawan', 'budi@gmail.com', '089519113444', 1, 0, '2024-02-13 14:01:43', '2024-02-26 12:18:00'),
+(54, 'Budi prayogaws', 'Budiprayogadw', '$2b$10$adfiGVNoCujGIuHe0uKE6.r7sgrpTq.2PrlzTkV7OD0RqCGLhnVdS', 'Karyawan', 'Budiprayodwa@gmail.com', '0895191134442', 1, 0, '2024-02-27 14:18:11', '2024-02-27 14:37:44');
 
 --
 -- Indexes for dumped tables
@@ -182,25 +185,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `keuangan`
 --
 ALTER TABLE `keuangan`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT untuk tabel `kriteria`
 --
 ALTER TABLE `kriteria`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT untuk tabel `pengajuan`
 --
 ALTER TABLE `pengajuan`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=168;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)

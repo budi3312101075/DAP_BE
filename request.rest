@@ -79,3 +79,13 @@ GET http://localhost:5000/keuangan
 
 ###
 GET http://localhost:5000/totalDana
+
+
+###
+POST https://sid.polibatam.ac.id/api/v1.php
+Content-Type: application/json
+
+{
+    "act": "GetBiodata",
+    "secretKey": "wXNdJHPUshBZyFJbmliHIgUgYTE5Yd6T1714721955"
+}
