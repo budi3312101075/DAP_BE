@@ -3,7 +3,7 @@ import db from "../Config/Db.js";
 export const getKeuangan = async (req, res) => {
   try {
     const query = await db.execute(
-      `SELECT * FROM keuangan WHERE is_Deleted = 0;`
+      `SELECT * FROM keuangan WHERE is_Deleted = 0 ORDER BY keuangan.id DESC;`
     );
     const keuangan = query[0];
 
@@ -29,10 +29,12 @@ export const getKeuangan = async (req, res) => {
 
 export const tambahKeuangan = async (req, res) => {
   const { status, keterangan, tanggal, nominal } = req.body;
+  const id_users = req.user.id;
+
   try {
     await db.execute(
-      `INSERT INTO keuangan (status, keterangan, tanggal, nominal, is_Deleted) VALUES (?,?,?,?, 0);`,
-      [status, keterangan, tanggal, nominal]
+      `INSERT INTO keuangan (status, keterangan, tanggal, nominal, is_Deleted, id_users) VALUES (?,?,?,?, ?, ?);`,
+      [status, keterangan, tanggal, nominal, 0, id_users]
     );
     return res
       .status(200)

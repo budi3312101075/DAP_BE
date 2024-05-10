@@ -32,8 +32,8 @@ POST http://localhost:5000/Login
 Content-Type: application/json
 
 {
-    "username": "Admin",
-    "password": "Admin"
+    "username": "Karyawan",
+    "password": "Karyawan"
 }
 
 ###
@@ -80,6 +80,8 @@ GET http://localhost:5000/keuangan
 ###
 GET http://localhost:5000/totalDana
 
+###
+GET http://localhost:5000/keuangan
 
 ###
 POST https://sid.polibatam.ac.id/api/v1.php

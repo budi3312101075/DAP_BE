@@ -10,15 +10,10 @@ import { access, privateRoutes } from "../Middleware/Private.js";
 
 const router = express.Router();
 
-router.get(
-  "/keuangan",
-  privateRoutes,
-  access("Admin", "SuperAdmin"),
-  getKeuangan
-);
-router.get("/totalDana", totalDana);
-router.post("/keuangan", tambahKeuangan);
-router.patch("/updateKeuangan/:id", updateKeuangan);
-router.patch("/keuangan/:id", deletedKeuangan);
+router.get("/keuangan", privateRoutes, getKeuangan);
+router.get("/totalDana", privateRoutes, totalDana);
+router.post("/keuangan", privateRoutes, tambahKeuangan);
+router.patch("/updateKeuangan/:id", privateRoutes, updateKeuangan);
+router.patch("/keuangan/:id", privateRoutes, deletedKeuangan);
 
 export default router;

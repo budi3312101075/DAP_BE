@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Waktu pembuatan: 04 Bulan Mei 2024 pada 02.01
+-- Waktu pembuatan: 04 Bulan Mei 2024 pada 04.36
 -- Versi server: 8.0.30
 -- Versi PHP: 8.1.10
 
@@ -34,6 +34,7 @@ CREATE TABLE `keuangan` (
   `tanggal` date NOT NULL,
   `nominal` int NOT NULL,
   `is_Deleted` tinyint(1) NOT NULL,
+  `id_users` int NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -42,10 +43,10 @@ CREATE TABLE `keuangan` (
 -- Dumping data untuk tabel `keuangan`
 --
 
-INSERT INTO `keuangan` (`id`, `status`, `keterangan`, `tanggal`, `nominal`, `is_Deleted`, `createdAt`, `updatedAt`) VALUES
-(50, 'pemasukan', 'Pemasukan bulan Mei', '2024-04-29', 10000000, 0, '2024-04-29 02:15:41', '2024-04-29 02:15:41'),
-(51, 'pengeluaran', 'khitan anak', '2024-04-29', 1000000, 0, '2024-04-29 02:20:04', '2024-04-29 02:20:04'),
-(54, 'pengeluaran', 'bantuan menikah', '2024-05-03', 500000, 0, '2024-05-03 01:45:00', '2024-05-03 01:45:00');
+INSERT INTO `keuangan` (`id`, `status`, `keterangan`, `tanggal`, `nominal`, `is_Deleted`, `id_users`, `createdAt`, `updatedAt`) VALUES
+(55, 'pemasukan', 'bulan mei', '2024-05-04', 1000000000, 0, 41, '2024-05-04 02:19:47', '2024-05-04 02:19:47'),
+(56, 'pengeluaran', 'bantuan menikah', '2024-05-04', 1000000, 0, 51, '2024-05-04 02:41:20', '2024-05-04 04:16:19'),
+(57, 'pengeluaran', 'bantuan meninggal', '2024-05-04', 2000000, 0, 51, '2024-05-04 03:10:30', '2024-05-04 03:10:30');
 
 -- --------------------------------------------------------
 
@@ -56,7 +57,7 @@ INSERT INTO `keuangan` (`id`, `status`, `keterangan`, `tanggal`, `nominal`, `is_
 CREATE TABLE `kriteria` (
   `id` int NOT NULL,
   `jenis_bantuan` varchar(30) NOT NULL,
-  `nominal` int NOT NULL,
+  `nominal` bigint NOT NULL,
   `keterangan` longtext NOT NULL,
   `dokumen` longtext NOT NULL,
   `batas_waktu` int NOT NULL,
@@ -86,7 +87,6 @@ INSERT INTO `kriteria` (`id`, `jenis_bantuan`, `nominal`, `keterangan`, `dokumen
 CREATE TABLE `pengajuan` (
   `id` int NOT NULL,
   `tanggal` date NOT NULL,
-  `nominal` bigint NOT NULL,
   `deskripsi` varchar(500) COLLATE utf8mb4_general_ci NOT NULL,
   `bukti` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `bukti_transfer` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
@@ -103,11 +103,10 @@ CREATE TABLE `pengajuan` (
 -- Dumping data untuk tabel `pengajuan`
 --
 
-INSERT INTO `pengajuan` (`id`, `tanggal`, `nominal`, `deskripsi`, `bukti`, `bukti_transfer`, `status`, `deskripsi_status`, `is_Deleted`, `id_users`, `id_kriteria`, `createdAt`, `updatedAt`) VALUES
-(163, '2024-04-29', 1000000, 'anak saya akan melakukan khitanan pada awal Mei', '17143570642641707713917605khitan.jpeg', '1714357204886bukti transfer 0,5.jpg', 'selesai', 'selesai', 0, 51, 69, '2024-04-29 02:17:44', '2024-04-29 02:20:04'),
-(165, '2024-05-03', 500000, 'untuk saya menikah', '1714700635845undangan pernikahan.jpg', '1714700700340bukti transfer 0,5.jpg', 'selesai', 'selesai', 0, 51, 66, '2024-05-03 01:43:55', '2024-05-03 01:45:00'),
-(166, '2024-05-03', 1000000, 'saya sakitt', '1714701503643karangan bunga.jpg', '', 'tolak', 'ditolak karena tidak sesuai\r\n', 0, 51, 70, '2024-05-03 01:58:23', '2024-05-03 02:00:46'),
-(167, '2024-05-03', 1000000, 'saya keguguran ', '17147031664941707713917605khitan.jpeg', '', '', '', 0, 51, 67, '2024-05-03 02:26:06', '2024-05-03 02:26:06');
+INSERT INTO `pengajuan` (`id`, `tanggal`, `deskripsi`, `bukti`, `bukti_transfer`, `status`, `deskripsi_status`, `is_Deleted`, `id_users`, `id_kriteria`, `createdAt`, `updatedAt`) VALUES
+(169, '2024-04-03', 'suer untuk saya menikah', '1714792212989undangan pernikahan.jpg', '1714792230239bukti transfer 0,5.jpg', 'selesai', 'selesai', 0, 51, 71, '2024-05-04 02:50:21', '2024-05-04 04:04:17'),
+(170, '2024-05-04', 'untuk saya menikah', '1714793701745undangan pernikahan.jpg', '', 'ditangguhkan', 'ss', 0, 51, 66, '2024-05-04 03:35:01', '2024-05-04 04:04:53'),
+(171, '2024-05-04', 's', '17147938469501707713917605khitan.jpeg', '', '', '', 0, 51, 69, '2024-05-04 03:37:26', '2024-05-04 03:41:28');
 
 -- --------------------------------------------------------
 
@@ -155,7 +154,8 @@ INSERT INTO `users` (`id`, `nama`, `username`, `password`, `role`, `email`, `no_
 -- Indeks untuk tabel `keuangan`
 --
 ALTER TABLE `keuangan`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_users_keuangan` (`id_users`);
 
 --
 -- Indeks untuk tabel `kriteria`
@@ -185,7 +185,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `keuangan`
 --
 ALTER TABLE `keuangan`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT untuk tabel `kriteria`
@@ -197,7 +197,7 @@ ALTER TABLE `kriteria`
 -- AUTO_INCREMENT untuk tabel `pengajuan`
 --
 ALTER TABLE `pengajuan`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=168;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=172;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
@@ -208,6 +208,12 @@ ALTER TABLE `users`
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
+
+--
+-- Ketidakleluasaan untuk tabel `keuangan`
+--
+ALTER TABLE `keuangan`
+  ADD CONSTRAINT `fk_users_keuangan` FOREIGN KEY (`id_users`) REFERENCES `users` (`id`);
 
 --
 -- Ketidakleluasaan untuk tabel `pengajuan`
