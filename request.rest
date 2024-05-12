@@ -32,8 +32,8 @@ POST http://localhost:5000/Login
 Content-Type: application/json
 
 {
-    "username": "Karyawan",
-    "password": "Karyawan"
+    "username": "SuperAdmin",
+    "password": "SuperAdmin"
 }
 
 ###
@@ -67,6 +67,17 @@ Content-Type: application/json
     "username": "Admin",
     "email": "Admin@gmail.com",
     "no_telepon": "087872428"
+}
+
+
+# reset password untuk seluruh anggota dap
+###
+PATCH http://localhost:5000/resetPasswordAdmin/40
+Content-Type: application/json
+
+{
+    "newPassword": "Admin",
+    "confirmPassword": "Admin"
 }
 
 ###

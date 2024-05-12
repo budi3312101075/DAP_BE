@@ -236,6 +236,30 @@ export const updateUser = async (req, res) => {
   }
 };
 
+export const resetPasswordAdmin = async (req, res) => {
+  const { id } = req.params;
+  const { newPassword, confirmPassword } = req.body;
+  try {
+    if (newPassword !== confirmPassword) {
+      return res
+        .status(400)
+        .json({ msg: "Password baru dan konfirmasi password tidak sesuai" });
+    }
+
+    const salt = await bcrypt.genSalt();
+    const hashPassword = await bcrypt.hash(newPassword, salt);
+
+    await db.execute(`UPDATE users SET password = ? WHERE id = ?;`, [
+      hashPassword,
+      id,
+    ]);
+
+    return res.status(200).json({ msg: "Password berhasil diubah" });
+  } catch (error) {
+    return res.status(500).json({ msg: "Terjadi kesalahan pada server" });
+  }
+};
+
 export const resetPassword = async (req, res) => {
   const { id } = req.params;
   const { currentPassword, newPassword, confirmPassword } = req.body;

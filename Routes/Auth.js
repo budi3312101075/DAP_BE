@@ -9,6 +9,7 @@ import {
   updateUser,
   deletedUser,
   resetPassword,
+  resetPasswordAdmin,
 } from "../Controllers/Auth.js";
 // import { refreshToken } from "../Controllers/RefreshToken.js";
 import { access, privateRoutes } from "../Middleware/Private.js";
@@ -20,6 +21,12 @@ router.post("/Users", Register);
 router.patch("/Users/:id", privateRoutes, updateUser);
 router.patch("/deletedUser/:id", privateRoutes, deletedUser);
 router.patch("/resetPassword/:id", privateRoutes, resetPassword);
+router.patch(
+  "/resetPasswordAdmin/:id",
+  privateRoutes,
+  access("SuperAdmin"),
+  resetPasswordAdmin
+);
 router.post("/Login", Login);
 router.get("/getMe", privateRoutes, getMe);
 router.get("/Logout", Logout);
