@@ -4,7 +4,7 @@ import { fileDir } from "../Utils/file_handler.cjs";
 
 export const sendEmail = async (req, res) => {
   try {
-    const { tanggal, nominal, deskripsi, id_kriteria, id_users } = req.body; // Ambil data dari pengajuan
+    const { tanggal, deskripsi, id_kriteria, id_users } = req.body; // Ambil data dari pengajuan
     const { filename } = req.file;
 
     const query = await db.execute(
@@ -20,10 +20,11 @@ export const sendEmail = async (req, res) => {
 
     // Ambil data bantuan
     const dataBantuan = await db.execute(
-      `SELECT jenis_bantuan FROM kriteria WHERE id = ?`,
+      `SELECT jenis_bantuan, nominal FROM kriteria WHERE id = ?`,
       [id_kriteria]
     );
     const jenis_bantuan = dataBantuan[0][0].jenis_bantuan;
+    const nominal = dataBantuan[0][0].nominal;
 
     let transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
